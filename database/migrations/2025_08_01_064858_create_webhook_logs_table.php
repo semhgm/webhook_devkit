@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tunnels', function (Blueprint $table) {
+        Schema::create('webhook_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('key');
-            $table->string('forward_url');
+            $table->foreignId('tunnel_id')->constrained()->onDelete('cascade');
+            $table->string('method');
+            $table->text('headers');
+            $table->text('body');
+            $table->string('status');
+            $table->text('response');
             $table->timestamps();
         });
     }
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tunnels');
+        Schema::dropIfExists('webhook_logs');
     }
 };
